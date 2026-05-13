@@ -2,15 +2,17 @@ import "./styles.css";
 
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import whoTimeLogo from "../../assets/who-time-logo.png";
 
 function Login() {
 
-  /* ESTADOS */
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  /* LOGIN */
   const handleLogin = async () => {
 
     try {
@@ -42,7 +44,8 @@ function Login() {
           data.token
         );
 
-        alert("Login realizado!");
+        /* REDIRECIONA */
+        navigate("/dashboard");
 
       } else {
 

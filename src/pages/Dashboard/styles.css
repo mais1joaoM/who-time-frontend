@@ -1,0 +1,155 @@
+.dashboard-container {
+  width: 100vw;
+
+  height: calc(100vh - 70px);
+
+  margin-top: 70px;
+
+  display: flex;
+
+  background: #3d7eff;
+
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 300px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(10px);
+
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.sidebar h2 {
+  color: white;
+
+  margin-bottom: 10px;
+}
+
+.sidebar select {
+  padding: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  outline: none;
+}
+
+.sidebar option {
+  color: black;
+}
+
+.logout-button {
+  margin-top: auto;
+
+  padding: 14px;
+
+  border: none;
+
+  background: white;
+
+  color: #2448d8;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.content {
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 700px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  padding: 40px;
+
+  border-radius: 20px;
+}
+
+.form-card h1 {
+  color: white;
+
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: white;
+
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  outline: none;
+
+  resize: none;
+}
+
+.form-group textarea {
+  min-height: 150px;
+}
+
+.submit-button {
+  width: 100%;
+
+  padding: 16px;
+
+  border: none;
+
+  background: white;
+
+  color: #2448d8;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.submit-button:hover {
+  transform: scale(1.01);
+}
