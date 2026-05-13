@@ -10,12 +10,20 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
 
   const handleLogin = async () => {
 
     try {
+
+      setLoading(true);
 
       const response = await fetch(
         "http://localhost:3000/login",
@@ -23,7 +31,8 @@ function Login() {
           method: "POST",
 
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
 
           body: JSON.stringify({
@@ -33,9 +42,8 @@ function Login() {
         }
       );
 
-      const data = await response.json();
-
-      console.log(data);
+      const data =
+        await response.json();
 
       if (response.ok) {
 
@@ -44,77 +52,157 @@ function Login() {
           data.token
         );
 
-        /* REDIRECIONA */
         navigate("/dashboard");
 
       } else {
 
-        alert(data.message || "Erro no login");
+        alert(
+          data.message ||
+          "Erro no login"
+        );
       }
 
     } catch (error) {
 
       console.error(error);
 
-      alert("Erro ao conectar com API");
+      alert(
+        "Erro ao conectar com API"
+      );
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
-  return (
-    <div className="container">
+return (
+  <div className="login-page">
 
-      <div className="background-shape top"></div>
-      <div className="background-shape bottom"></div>
+    {/* GLOWS */}
+    <div className="bg-glow glow-1"></div>
+    <div className="bg-glow glow-2"></div>
 
-      <div className="login-box">
+    {/* LOGO FIXO NO TOPO */}
+    <div className="brand-section">
 
-        <div className="logo-container">
+      <div className="brand-logo-wrapper">
 
-          <img
-            src={whoTimeLogo}
-            alt="who-time"
-            className="who-image"
-          />
+        <img
+          src={whoTimeLogo}
+          alt="Who Time"
+          className="brand-logo"
+        />
 
-        </div>
+      </div>
 
-        <div className="input-group">
+      <div className="brand-info">
 
-          <input
-            type="email"
-            placeholder="EMAIL"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-          />
+        <h1>
+          Who Time
+        </h1>
 
-        </div>
+      </div>
 
-        <div className="input-group">
+    </div>
 
-          <input
-            type="password"
-            placeholder="PASSWORD"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-          />
+    {/* CARD LOGIN */}
+    <div className="login-card">
 
-        </div>
+      <div className="login-header">
 
-        <button onClick={handleLogin}>
+        <span className="login-badge">
           LOGIN
-        </button>
+        </span>
+
+        <h2>
+          Entrar
+        </h2>
+
+      </div>
+
+      {/* EMAIL */}
+      <div className="input-group">
+
+        <label>
+          E-mail
+        </label>
+
+        <input
+          type="email"
+
+          placeholder="Digite seu e-mail"
+
+          value={email}
+
+          onChange={(e) =>
+            setEmail(
+              e.target.value
+            )
+          }
+        />
+
+      </div>
+
+      {/* SENHA */}
+      <div className="input-group">
+
+        <label>
+          Senha
+        </label>
+
+        <input
+          type="password"
+
+          placeholder="Digite sua senha"
+
+          value={password}
+
+          onChange={(e) =>
+            setPassword(
+              e.target.value
+            )
+          }
+        />
+
+      </div>
+
+      {/* FOOTER */}
+      <div className="login-footer">
+
+        <label className="remember-me">
+
+          <input type="checkbox" />
+
+          <span>
+            Lembrar de mim
+          </span>
+
+        </label>
 
         <span className="forgot-password">
-          Forgot password?
+          Esqueceu a senha?
         </span>
 
       </div>
+
+      {/* BOTÃO */}
+      <button
+        className="login-button"
+        onClick={handleLogin}
+        disabled={loading}
+      >
+
+        {loading
+          ? "Entrando..."
+          : "Entrar"}
+
+      </button>
+
     </div>
-  );
+
+  </div>
+);
 }
 
 export default Login;

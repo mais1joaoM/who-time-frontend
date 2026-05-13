@@ -1,0 +1,438 @@
+/* pages/CompaniesContracts/styles.css */
+
+.companies-page {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(91,124,255,0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(45,86,232,0.10),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f4f7ff 0%,
+      #eef3ff 100%
+    );
+
+  padding-top: 110px;
+}
+
+.companies-content {
+  padding: 40px;
+}
+
+.companies-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 32px;
+}
+
+.companies-badge {
+  color: #2d56e8;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.companies-header h1 {
+  font-size: 42px;
+
+  color: #1f2937;
+
+  margin-top: 8px;
+}
+
+.companies-header p {
+  color: #64748b;
+
+  margin-top: 8px;
+}
+
+.new-company-button {
+  height: 56px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: #2d56e8;
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.new-company-button:hover {
+  transform: translateY(-2px);
+
+  background: #2448d8;
+}
+
+.search-wrapper {
+  height: 60px;
+
+  background: rgba(255,255,255,0.75);
+
+  border:
+    1px solid rgba(255,255,255,0.6);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(12px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 20px;
+
+  margin-bottom: 30px;
+}
+
+.search-wrapper svg {
+  color: #64748b;
+}
+
+.search-wrapper input {
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  width: 100%;
+
+  font-size: 15px;
+}
+
+.companies-grid {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.company-card {
+  background:
+    rgba(255,255,255,0.7);
+
+  border:
+    1px solid rgba(255,255,255,0.5);
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.06);
+}
+
+.company-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.company-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+.company-icon {
+  width: 64px;
+
+  height: 64px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 24px;
+}
+
+.company-info h2 {
+  color: #1f2937;
+
+  font-size: 24px;
+
+  margin-bottom: 4px;
+}
+
+.company-info span {
+  color: #64748b;
+}
+
+.company-actions {
+  display: flex;
+
+  gap: 10px;
+}
+
+.company-actions button,
+.contract-actions button {
+  width: 44px;
+
+  height: 44px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    rgba(45,86,232,0.08);
+
+  color: #2d56e8;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.company-actions button:hover,
+.contract-actions button:hover {
+  background:
+    rgba(45,86,232,0.16);
+}
+
+.contracts-wrapper {
+  margin-top: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.contract-card {
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 22px;
+}
+
+.contract-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.contract-top h3 {
+  color: #1f2937;
+
+  margin-bottom: 4px;
+}
+
+.contract-top span {
+  color: #64748b;
+}
+
+.contract-actions {
+  display: flex;
+
+  gap: 10px;
+}
+
+.progress-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.progress-bar {
+  flex: 1;
+
+  height: 12px;
+
+  border-radius: 999px;
+
+  background: #e2e8f0;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+
+  border-radius: 999px;
+}
+
+.modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(15,23,42,0.45);
+
+  backdrop-filter: blur(8px);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 999;
+}
+
+.modal-content {
+  width: 100%;
+
+  max-width: 520px;
+
+  background:
+    rgba(255,255,255,0.9);
+
+  border:
+    1px solid rgba(255,255,255,0.5);
+
+  border-radius: 28px;
+
+  padding: 32px;
+
+  backdrop-filter: blur(18px);
+}
+
+.modal-content h2 {
+  color: #1f2937;
+
+  margin-bottom: 24px;
+}
+
+.modal-group {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 20px;
+}
+
+.modal-group label {
+  color: #374151;
+
+  font-weight: 600;
+
+  margin-bottom: 10px;
+}
+
+.modal-group input {
+  height: 56px;
+
+  border:
+    1px solid #dbe2f0;
+
+  border-radius: 16px;
+
+  padding: 0 18px;
+
+  outline: none;
+
+  background: #f8fbff;
+}
+
+.modal-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 14px;
+
+  margin-top: 30px;
+}
+
+.cancel-button,
+.save-button {
+  height: 52px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #e2e8f0;
+
+  color: #1f2937;
+}
+
+.save-button {
+  background: #2d56e8;
+
+  color: white;
+}
+
+.empty-state {
+  height: 180px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #64748b;
+
+  font-weight: 500;
+}
