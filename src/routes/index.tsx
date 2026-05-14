@@ -10,6 +10,7 @@ import Dashboard from "../pages/Dashboard";
 import Reports from "../pages/Reports";
 import Statistics from "../pages/Statistics";
 import CompaniesContracts from "../pages/CompaniesContracts";
+import Users from "../pages/Users";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -69,6 +70,16 @@ function RoutesApp() {
           element={
             <ProtectedRoute>
               <CompaniesContracts />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* STATISTICS */}
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Users />
             </ProtectedRoute>
           }
         />

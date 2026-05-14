@@ -2,6 +2,10 @@ import "./styles.css";
 
 import Navbar from "../../components/Navbar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:3000";
+
 import {
   useEffect,
   useMemo,
@@ -19,6 +23,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
   Cell,
+  LabelList,
 } from "recharts";
 
 import * as XLSX from "xlsx";
@@ -27,11 +32,18 @@ import { FiDownload } from "react-icons/fi";
 
 interface Contract {
   id: number;
+  company_id: number;
   name: string;
+  start_date?: string;
+  end_date?: string;
+  hours_limit: number;
 }
 
-interface CompanyContracts {
-  company: string;
+interface Company {
+  id: number;
+  name: string;
+  cnpj: string;
+  created_at?: string;
   contracts: Contract[];
 }
 
@@ -57,7 +69,7 @@ interface SelectOption {
 function Statistics() {
 
   const [companies, setCompanies] =
-    useState<CompanyContracts[]>([]);
+    useState<Company[]>([]);
 
   const [selectedContract, setSelectedContract] =
     useState<SelectOption | null>(null);
@@ -68,10 +80,73 @@ function Statistics() {
   const [history, setHistory] =
     useState<HistoryItem[]>([]);
 
-  /* BUSCA CONTRATOS */
+  const customSelectStyles = {
+    menuPortal: (base: any) => ({
+      ...base,
+      zIndex: 9999,
+    }),
+
+    menu: (base: any) => ({
+      ...base,
+      zIndex: 9999,
+      borderRadius: 18,
+      overflow: "hidden",
+      marginTop: 6,
+    }),
+
+    control: (base: any, state: any) => ({
+      ...base,
+      minHeight: 58,
+      borderRadius: 18,
+      border: state.isFocused
+        ? "1px solid #2d56e8"
+        : "1px solid #dbe4ff",
+      boxShadow: "none",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+
+      "&:hover": {
+        border: "1px solid #2d56e8",
+      },
+    }),
+
+    placeholder: (base: any) => ({
+      ...base,
+      color: "#94a3b8",
+    }),
+
+    option: (
+      base: any,
+      state: any
+    ) => ({
+      ...base,
+      backgroundColor:
+        state.isFocused
+          ? "#eef4ff"
+          : "#ffffff",
+      color: "#111827",
+      cursor: "pointer",
+      padding: "14px 16px",
+    }),
+
+    valueContainer: (base: any) => ({
+      ...base,
+      padding: "2px 14px",
+    }),
+
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+
+    dropdownIndicator: (base: any) => ({
+      ...base,
+      color: "#64748b",
+    }),
+  };
+
   useEffect(() => {
 
-    const fetchContracts = async () => {
+    const fetchCompanies = async () => {
 
       try {
 
@@ -79,7 +154,7 @@ function Statistics() {
           localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:3000/company-contracts",
+          `${API_URL}/companies`,
           {
             headers: {
               Authorization:
@@ -99,16 +174,16 @@ function Statistics() {
       }
     };
 
-    fetchContracts();
+    fetchCompanies();
 
   }, []);
 
-  /* BUSCA HISTÓRICO */
   useEffect(() => {
 
     const fetchHistory = async () => {
 
-      if (!selectedContract) return;
+      if (!selectedContract)
+        return;
 
       try {
 
@@ -116,7 +191,7 @@ function Statistics() {
           localStorage.getItem("token");
 
         const response = await fetch(
-          `http://localhost:3000/contracts/${selectedContract.value}/history`,
+          `${API_URL}/contracts/${selectedContract.value}/history`,
           {
             headers: {
               Authorization:
@@ -128,9 +203,9 @@ function Statistics() {
         const data =
           await response.json();
 
-        console.log(data);
-
         setHistory(data);
+
+        setSelectedMonth(null);
 
       } catch (error) {
 
@@ -142,26 +217,24 @@ function Statistics() {
 
   }, [selectedContract]);
 
-  /* CONTRATOS */
   const contractOptions =
-    companies.flatMap((company) =>
-      company.contracts.map(
-        (contract) => ({
-          value: contract.id,
-          label:
-            `${company.company} - ${contract.name}`,
-        })
-      )
+    companies.flatMap(
+      (company) =>
+        company.contracts.map(
+          (contract) => ({
+            value: contract.id,
+            label:
+              `${company.name} - ${contract.name}`,
+          })
+        )
     );
 
-  /* MESES */
   const monthOptions =
     history.map((item) => ({
       value: item.mes,
       label: item.mes,
     }));
 
-  /* DADO DO MÊS */
   const selectedData =
     useMemo(() => {
 
@@ -179,16 +252,12 @@ function Statistics() {
       history,
     ]);
 
-  /* EXPORTAR EXCEL */
   const exportExcel = () => {
 
-    if (!selectedData) return;
+    if (!selectedData)
+      return;
 
     const excelData: any[] = [];
-
-    /*
-      RESUMO
-    */
 
     excelData.push({
       Mês:
@@ -214,15 +283,7 @@ function Statistics() {
       Horas: "",
     });
 
-    /*
-      LINHA VAZIA
-    */
-
     excelData.push({});
-
-    /*
-      TIME ENTRIES
-    */
 
     if (
       selectedData.time_entries &&
@@ -233,7 +294,6 @@ function Statistics() {
         (entry) => {
 
           excelData.push({
-
             Mês:
               selectedData.mes,
 
@@ -282,7 +342,6 @@ function Statistics() {
     );
   };
 
-  /* PROGRESSO */
   const progress =
     selectedData
       ? selectedData.percentual
@@ -293,30 +352,55 @@ function Statistics() {
 
   const progressText =
     "█".repeat(progressBlocks) +
-    "░".repeat(20 - progressBlocks);
+    "░".repeat(
+      20 - progressBlocks
+    );
 
-  /* STATUS */
-  const getStatusColor = () => {
+  const getStatusColor =
+    () => {
 
-    if (progress >= 95)
-      return "danger";
+      if (progress >= 95)
+        return "danger";
 
-    if (progress >= 80)
-      return "warning";
+      if (progress >= 80)
+        return "warning";
 
-    return "success";
-  };
+      return "success";
+    };
 
-  const getStatusText = () => {
+  const getStatusText =
+    () => {
 
-    if (progress >= 95)
-      return "CRÍTICO";
+      if (progress >= 95)
+        return "CRÍTICO";
 
-    if (progress >= 80)
-      return "ATENÇÃO";
+      if (progress >= 80)
+        return "ATENÇÃO";
 
-    return "SAUDÁVEL";
-  };
+      return "SAUDÁVEL";
+    };
+
+  const chartData =
+    selectedData
+      ? [
+          {
+            name: "Usadas",
+            value: selectedData.gasto,
+            label: `Usadas: ${selectedData.gasto}h`,
+          },
+          {
+            name: "Restantes",
+            value:
+              selectedData.total -
+              selectedData.gasto,
+            label:
+              `Restantes: ${
+                selectedData.total -
+                selectedData.gasto
+              }h`,
+          },
+        ]
+      : [];
 
   return (
     <div className="statistics-container">
@@ -346,16 +430,12 @@ function Statistics() {
               onClick={exportExcel}
               disabled={!selectedData}
             >
-
               <FiDownload />
-
               Exportar Excel
-
             </button>
 
           </div>
 
-          {/* FILTROS */}
           <div className="filters">
 
             <div className="filter-item">
@@ -366,16 +446,14 @@ function Statistics() {
 
               <Select
                 options={contractOptions}
-
                 placeholder="Selecione contrato"
-
                 value={selectedContract}
-
                 onChange={(option) =>
-                  setSelectedContract(
-                    option
-                  )
+                  setSelectedContract(option)
                 }
+                styles={customSelectStyles}
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
               />
 
             </div>
@@ -388,16 +466,15 @@ function Statistics() {
 
               <Select
                 options={monthOptions}
-
                 placeholder="Selecione mês"
-
                 value={selectedMonth}
-
                 onChange={(option) =>
-                  setSelectedMonth(
-                    option
-                  )
+                  setSelectedMonth(option)
                 }
+                styles={customSelectStyles}
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                isDisabled={!selectedContract}
               />
 
             </div>
@@ -407,11 +484,10 @@ function Statistics() {
           {selectedData && (
 
             <>
-              {/* CARDS */}
+
               <div className="summary-grid">
 
                 <div className="summary-card">
-
                   <span>
                     Total contratado
                   </span>
@@ -419,11 +495,9 @@ function Statistics() {
                   <h2>
                     {selectedData.total}h
                   </h2>
-
                 </div>
 
                 <div className="summary-card">
-
                   <span>
                     Horas usadas
                   </span>
@@ -431,11 +505,9 @@ function Statistics() {
                   <h2>
                     {selectedData.gasto}h
                   </h2>
-
                 </div>
 
                 <div className="summary-card">
-
                   <span>
                     Horas restantes
                   </span>
@@ -446,28 +518,22 @@ function Statistics() {
                       selectedData.gasto
                     }h
                   </h2>
-
                 </div>
 
                 <div
                   className={`summary-card ${getStatusColor()}`}
                 >
-
                   <span>
                     Consumo
                   </span>
 
                   <h2>
-                    {
-                      selectedData.percentual
-                    }%
+                    {selectedData.percentual}%
                   </h2>
-
                 </div>
 
               </div>
 
-              {/* PROGRESS */}
               <div className="progress-card">
 
                 <div className="progress-top">
@@ -495,7 +561,6 @@ function Statistics() {
 
               </div>
 
-              {/* GRÁFICO */}
               <div className="chart-card">
 
                 <div className="chart-header">
@@ -512,19 +577,13 @@ function Statistics() {
                 >
 
                   <BarChart
-                    data={[
-                      {
-                        name: "Usadas",
-                        value:
-                          selectedData.gasto,
-                      },
-                      {
-                        name: "Restantes",
-                        value:
-                          selectedData.total -
-                          selectedData.gasto,
-                      },
-                    ]}
+                    data={chartData}
+                    margin={{
+                      top: 35,
+                      right: 30,
+                      left: 20,
+                      bottom: 10,
+                    }}
                   >
 
                     <CartesianGrid
@@ -535,7 +594,11 @@ function Statistics() {
 
                     <YAxis />
 
-                    <Tooltip />
+                    <Tooltip
+                      formatter={(value: any) =>
+                        [`${value}h`, "Horas"]
+                      }
+                    />
 
                     <Bar
                       dataKey="value"
@@ -546,6 +609,14 @@ function Statistics() {
                         0,
                       ]}
                     >
+
+                      <LabelList
+                        dataKey="label"
+                        position="top"
+                        fill="#111827"
+                        fontSize={15}
+                        fontWeight={700}
+                      />
 
                       <Cell fill="#2d56e8" />
 
@@ -558,7 +629,9 @@ function Statistics() {
                 </ResponsiveContainer>
 
               </div>
+
             </>
+
           )}
 
         </div>

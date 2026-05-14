@@ -12,11 +12,15 @@
       #eef4ff 0%,
       #f8fbff 100%
     );
+
+  overflow-x: hidden;
 }
 
 .statistics-content {
   padding:
     120px 40px 40px;
+
+  width: 100%;
 }
 
 .statistics-card {
@@ -29,6 +33,10 @@
 
   box-shadow:
     0 25px 80px rgba(15,23,42,0.08);
+
+  width: 100%;
+
+  overflow: visible;
 }
 
 /* HEADER */
@@ -72,10 +80,12 @@
   font-size: 42px;
 
   color: #111827;
+
+  line-height: 1.1;
 }
 
 .export-button {
-  height: 56px;
+  min-height: 56px;
 
   padding:
     0 24px;
@@ -99,9 +109,19 @@
 
   align-items: center;
 
+  justify-content: center;
+
   gap: 10px;
 
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.export-button:hover {
+  transform: translateY(-2px);
 }
 
 /* FILTROS */
@@ -114,10 +134,16 @@
   margin-bottom: 34px;
 
   flex-wrap: wrap;
+
+  width: 100%;
 }
 
 .filter-item {
-  width: 320px;
+  flex: 1;
+
+  min-width: 280px;
+
+  width: 100%;
 }
 
 .filter-item label {
@@ -130,6 +156,39 @@
   color: #374151;
 }
 
+/*
+  REACT SELECT
+*/
+
+.filter-item .css-b62m3t-container {
+  width: 100%;
+}
+
+.filter-item .css-13cymwt-control,
+.filter-item .css-t3ipsp-control {
+  min-height: 58px;
+
+  border-radius: 18px;
+
+  border: 1px solid #dbe4ff;
+
+  box-shadow: none;
+
+  width: 100%;
+}
+
+.filter-item .css-1jqq78o-placeholder {
+  color: #94a3b8;
+}
+/*
+.filter-item .css-1nmdiq5-menu {
+  z-index: 9999;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+*/
 /* CARDS */
 
 .summary-grid {
@@ -155,12 +214,16 @@
 
   box-shadow:
     0 18px 40px rgba(15,23,42,0.06);
+
+  overflow: hidden;
 }
 
 .summary-card span {
   color: #64748b;
 
   font-size: 14px;
+
+  line-height: 1.4;
 }
 
 .summary-card h2 {
@@ -169,6 +232,8 @@
   font-size: 34px;
 
   color: #111827;
+
+  word-break: break-word;
 }
 
 /* ALERTAS */
@@ -211,7 +276,11 @@
 
   align-items: center;
 
+  gap: 16px;
+
   margin-bottom: 20px;
+
+  flex-wrap: wrap;
 }
 
 .progress-top h3 {
@@ -228,6 +297,8 @@
   color: #2d56e8;
 
   margin-bottom: 20px;
+
+  line-height: 1.2;
 }
 
 .progress-bar-text {
@@ -236,6 +307,8 @@
   color: #111827;
 
   overflow-x: auto;
+
+  white-space: nowrap;
 }
 
 /* STATUS */
@@ -249,6 +322,8 @@
   font-size: 13px;
 
   font-weight: 800;
+
+  white-space: nowrap;
 }
 
 .status-pill.success {
@@ -283,6 +358,10 @@
 
   box-shadow:
     0 18px 40px rgba(15,23,42,0.06);
+
+  width: 100%;
+
+  overflow-x: auto;
 }
 
 .chart-header {
@@ -295,25 +374,37 @@
   color: #111827;
 }
 
-/* RESPONSIVO */
+/* TABLET */
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 
   .statistics-content {
     padding:
-      110px 20px 20px;
+      110px 24px 24px;
   }
 
   .statistics-card {
-    padding: 24px;
+    padding: 28px;
   }
 
-  .filters {
-    flex-direction: column;
+  .statistics-header h1 {
+    font-size: 34px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .statistics-content {
+    padding:
+      100px 16px 20px;
   }
 
-  .filter-item {
-    width: 100%;
+  .statistics-card {
+    padding: 20px;
+
+    border-radius: 24px;
   }
 
   .statistics-header {
@@ -322,9 +413,99 @@
     align-items: stretch;
   }
 
+  .statistics-header h1 {
+    font-size: 28px;
+  }
+
   .export-button {
     width: 100%;
+  }
 
-    justify-content: center;
+  .filters {
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .filter-item {
+    min-width: 100%;
+
+    width: 100%;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    padding: 22px;
+  }
+
+  .summary-card h2 {
+    font-size: 28px;
+  }
+
+  .progress-card {
+    padding: 22px;
+  }
+
+  .progress-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .progress-top h3 {
+    font-size: 20px;
+  }
+
+  .progress-percent {
+    font-size: 28px;
+  }
+
+  .progress-bar-text {
+    font-size: 16px;
+  }
+
+  .chart-card {
+    padding: 20px;
+  }
+
+  .chart-header h3 {
+    font-size: 20px;
+  }
+}
+
+/* MOBILE PEQUENO */
+
+@media (max-width: 480px) {
+
+  .statistics-content {
+    padding:
+      95px 12px 16px;
+  }
+
+  .statistics-card {
+    padding: 16px;
+  }
+
+  .statistics-header h1 {
+    font-size: 24px;
+  }
+
+  .statistics-badge {
+    font-size: 11px;
+  }
+
+  .summary-card h2 {
+    font-size: 24px;
+  }
+
+  .progress-percent {
+    font-size: 24px;
+  }
+
+  .export-button {
+    font-size: 14px;
   }
 }

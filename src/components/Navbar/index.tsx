@@ -1,8 +1,16 @@
 import "./styles.css";
 
-import whoTimeLogo from "../../assets/who-time-logo.png";
+import { useState } from "react";
+
+import {
+  FiMenu,
+  FiX,
+} from "react-icons/fi";
 
 function Navbar() {
+
+  const [menuOpen, setMenuOpen] =
+    useState(false);
 
   /*
     DECODIFICA JWT
@@ -16,9 +24,6 @@ function Navbar() {
 
     try {
 
-      /*
-        JWT = header.payload.signature
-      */
       const payload =
         JSON.parse(
           atob(
@@ -51,51 +56,81 @@ function Navbar() {
     window.location.href = "/login";
   };
 
+  const closeMenu = () => {
+
+    setMenuOpen(false);
+  };
+
   return (
     <header className="navbar">
 
-      {/* LOGO */}
-      <div className="brand-logo-wrapper">
+      <div className="navbar-brand">
 
-        <img
-          src={whoTimeLogo}
-          alt="Who Time"
-          className="brand-logo"
-        />
+        <div className="navbar-logo">
+          Who Time
+        </div>
 
       </div>
 
-      {/* NOME */}
-      <div
-        className={`navbar-logo ${
-          canManageCompanies
-            ? "navbar-logo-admin"
-            : "navbar-logo-user"
+      <button
+        className="menu-button"
+        onClick={() =>
+          setMenuOpen(!menuOpen)
+        }
+      >
+        {menuOpen ? (
+          <FiX />
+        ) : (
+          <FiMenu />
+        )}
+      </button>
+
+      <nav
+        className={`navbar-links ${
+          menuOpen
+            ? "navbar-links-open"
+            : ""
         }`}
       >
-        Who Time
-      </div>
 
-      {/* LINKS */}
-      <nav className="navbar-links">
-
-        <a href="/dashboard">
+        <a
+          href="/dashboard"
+          onClick={closeMenu}
+        >
           Dashboard
         </a>
 
-        <a href="/reports">
+        <a
+          href="/reports"
+          onClick={closeMenu}
+        >
           Reports
         </a>
 
-        <a href="/statistics">
+        <a
+          href="/statistics"
+          onClick={closeMenu}
+        >
           Statistics
         </a>
 
         {canManageCompanies && (
 
-          <a href="/companiescontracts">
-            Companies & Contracts
-          </a>
+          <>
+            <a
+              href="/companiescontracts"
+              onClick={closeMenu}
+            >
+              Companies & Contracts
+            </a>
+
+            <a
+              href="/users"
+              onClick={closeMenu}
+            >
+              Users
+            </a>
+          </>
 
         )}
 

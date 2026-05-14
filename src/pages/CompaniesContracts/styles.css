@@ -34,6 +34,8 @@
 
   align-items: center;
 
+  gap: 24px;
+
   margin-bottom: 32px;
 }
 
@@ -42,7 +44,7 @@
 
   font-size: 13px;
 
-  font-weight: 700;
+  font-weight: 800;
 
   letter-spacing: 2px;
 }
@@ -61,7 +63,18 @@
   margin-top: 8px;
 }
 
-.new-company-button {
+.header-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.new-company-button,
+.new-contract-button {
   height: 56px;
 
   padding: 0 24px;
@@ -69,8 +82,6 @@
   border: none;
 
   border-radius: 18px;
-
-  background: #2d56e8;
 
   color: white;
 
@@ -80,26 +91,49 @@
 
   gap: 10px;
 
-  font-weight: 600;
+  font-weight: 700;
 
   cursor: pointer;
 
   transition: 0.2s;
 }
 
-.new-company-button:hover {
-  transform: translateY(-2px);
+.new-company-button {
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
 
-  background: #2448d8;
+  box-shadow:
+    0 14px 28px rgba(45,86,232,0.22);
+}
+
+.new-contract-button {
+  background:
+    linear-gradient(
+      135deg,
+      #10b981,
+      #34d399
+    );
+
+  box-shadow:
+    0 14px 28px rgba(16,185,129,0.22);
+}
+
+.new-company-button:hover,
+.new-contract-button:hover {
+  transform: translateY(-2px);
 }
 
 .search-wrapper {
   height: 60px;
 
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.85);
 
   border:
-    1px solid rgba(255,255,255,0.6);
+    1px solid rgba(255,255,255,0.7);
 
   border-radius: 20px;
 
@@ -114,6 +148,9 @@
   padding: 0 20px;
 
   margin-bottom: 30px;
+
+  box-shadow:
+    0 14px 34px rgba(15,23,42,0.05);
 }
 
 .search-wrapper svg {
@@ -130,6 +167,8 @@
   width: 100%;
 
   font-size: 15px;
+
+  color: #1f2937;
 }
 
 .companies-grid {
@@ -142,10 +181,10 @@
 
 .company-card {
   background:
-    rgba(255,255,255,0.7);
+    rgba(255,255,255,0.82);
 
   border:
-    1px solid rgba(255,255,255,0.5);
+    1px solid rgba(255,255,255,0.65);
 
   border-radius: 28px;
 
@@ -154,7 +193,9 @@
   backdrop-filter: blur(14px);
 
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.06);
+    0 18px 48px rgba(15,23,42,0.07);
+
+  overflow: hidden;
 }
 
 .company-top {
@@ -163,6 +204,8 @@
   justify-content: space-between;
 
   align-items: center;
+
+  gap: 20px;
 }
 
 .company-info {
@@ -196,6 +239,8 @@
   justify-content: center;
 
   font-size: 24px;
+
+  flex-shrink: 0;
 }
 
 .company-info h2 {
@@ -203,17 +248,37 @@
 
   font-size: 24px;
 
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
-.company-info span {
+.company-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.company-meta span {
   color: #64748b;
+
+  background: #f1f5ff;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  font-weight: 600;
 }
 
 .company-actions {
   display: flex;
 
   gap: 10px;
+
+  flex-shrink: 0;
 }
 
 .company-actions button,
@@ -234,12 +299,20 @@
   cursor: pointer;
 
   transition: 0.2s;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 }
 
 .company-actions button:hover,
 .contract-actions button:hover {
   background:
     rgba(45,86,232,0.16);
+
+  transform: translateY(-2px);
 }
 
 .contracts-wrapper {
@@ -258,6 +331,12 @@
   border-radius: 22px;
 
   padding: 22px;
+
+  border:
+    1px solid #eef2ff;
+
+  box-shadow:
+    0 10px 26px rgba(15,23,42,0.04);
 }
 
 .contract-top {
@@ -267,17 +346,25 @@
 
   align-items: center;
 
+  gap: 16px;
+
   margin-bottom: 18px;
 }
 
 .contract-top h3 {
   color: #1f2937;
 
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+
+  font-size: 18px;
 }
 
 .contract-top span {
   color: #64748b;
+
+  font-size: 14px;
+
+  font-weight: 600;
 }
 
 .contract-actions {
@@ -286,30 +373,45 @@
   gap: 10px;
 }
 
-.progress-wrapper {
-  display: flex;
+.contract-details {
+  display: grid;
 
-  align-items: center;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(160px, 1fr)
+    );
 
-  gap: 14px;
+  gap: 12px;
+
+  color: #475569;
+
+  font-size: 14px;
 }
 
-.progress-bar {
-  flex: 1;
+.contract-details div {
+  background: #f8fbff;
 
-  height: 12px;
+  border:
+    1px solid #eef2ff;
 
-  border-radius: 999px;
+  border-radius: 16px;
 
-  background: #e2e8f0;
-
-  overflow: hidden;
+  padding: 14px;
 }
 
-.progress-fill {
-  height: 100%;
+.no-contracts {
+  background: white;
 
-  border-radius: 999px;
+  color: #64748b;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  text-align: center;
+
+  font-weight: 600;
 }
 
 .modal-overlay {
@@ -328,31 +430,46 @@
 
   justify-content: center;
 
-  z-index: 999;
+  z-index: 9999;
+
+  padding: 20px;
 }
 
 .modal-content {
   width: 100%;
 
-  max-width: 520px;
+  max-width: 620px;
 
   background:
-    rgba(255,255,255,0.9);
+    rgba(255,255,255,0.95);
 
   border:
-    1px solid rgba(255,255,255,0.5);
+    1px solid rgba(255,255,255,0.7);
 
   border-radius: 28px;
 
   padding: 32px;
 
   backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 28px 70px rgba(15,23,42,0.22);
 }
 
 .modal-content h2 {
   color: #1f2937;
 
   margin-bottom: 24px;
+
+  font-size: 28px;
+}
+
+.modal-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
 }
 
 .modal-group {
@@ -366,7 +483,7 @@
 .modal-group label {
   color: #374151;
 
-  font-weight: 600;
+  font-weight: 700;
 
   margin-bottom: 10px;
 }
@@ -384,6 +501,17 @@
   outline: none;
 
   background: #f8fbff;
+
+  color: #1f2937;
+
+  font-size: 15px;
+}
+
+.modal-group input:focus {
+  border-color: #2d56e8;
+
+  box-shadow:
+    0 0 0 4px rgba(45,86,232,0.08);
 }
 
 .modal-actions {
@@ -406,9 +534,11 @@
 
   border-radius: 16px;
 
-  font-weight: 600;
+  font-weight: 700;
 
   cursor: pointer;
+
+  transition: 0.2s;
 }
 
 .cancel-button {
@@ -418,9 +548,19 @@
 }
 
 .save-button {
-  background: #2d56e8;
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
 
   color: white;
+}
+
+.cancel-button:hover,
+.save-button:hover {
+  transform: translateY(-2px);
 }
 
 .empty-state {
@@ -434,5 +574,127 @@
 
   color: #64748b;
 
-  font-weight: 500;
+  font-weight: 600;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+  .companies-page {
+    padding-top: 95px;
+  }
+
+  .companies-content {
+    padding: 22px;
+  }
+
+  .companies-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .companies-header h1 {
+    font-size: 30px;
+  }
+
+  .header-actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .new-company-button,
+  .new-contract-button {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .company-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .company-info {
+    width: 100%;
+
+    align-items: flex-start;
+  }
+
+  .company-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+  .contract-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .contract-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+  .modal-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .companies-content {
+    padding: 16px;
+  }
+
+  .company-card {
+    padding: 20px;
+
+    border-radius: 22px;
+  }
+
+  .company-info {
+    flex-direction: column;
+  }
+
+  .company-info h2 {
+    font-size: 22px;
+  }
+
+  .company-icon {
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 18px;
+  }
+
+  .company-actions button,
+  .contract-actions button {
+    width: 40px;
+
+    height: 40px;
+  }
+
+  .modal-content {
+    padding: 24px;
+
+    border-radius: 24px;
+  }
 }

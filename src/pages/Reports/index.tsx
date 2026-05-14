@@ -2,6 +2,10 @@ import "./styles.css";
 
 import Navbar from "../../components/Navbar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:3000";
+
 import {
   useEffect,
   useMemo,
@@ -35,19 +39,22 @@ interface TimeEntry {
 
 interface Contract {
   id: number;
+  company_id: number;
   name: string;
+  start_date?: string;
+  end_date?: string;
+  hours_limit: number;
 }
 
-interface CompanyContracts {
-  id?: number;
-
-  company: string;
-
+interface Company {
+  id: number;
+  name: string;
+  cnpj: string;
+  created_at?: string;
   contracts: Contract[];
 }
 
 function Reports() {
-
   const [entries, setEntries] =
     useState<TimeEntry[]>([]);
 
@@ -55,7 +62,7 @@ function Reports() {
     useState<TimeEntry[]>([]);
 
   const [companies, setCompanies] =
-    useState<CompanyContracts[]>([]);
+    useState<Company[]>([]);
 
   const [selectedCompany, setSelectedCompany] =
     useState<string>("");
@@ -63,13 +70,11 @@ function Reports() {
   const [selectedMonth, setSelectedMonth] =
     useState<string>("");
 
-  /* PAGINAÇÃO */
   const [currentPage, setCurrentPage] =
     useState(1);
 
   const itemsPerPage = 10;
 
-  /* MODAL */
   const [isModalOpen, setIsModalOpen] =
     useState(false);
 
@@ -79,20 +84,15 @@ function Reports() {
   const [editDate, setEditDate] =
     useState<Date | null>(null);
 
-  /* BUSCA DADOS */
   useEffect(() => {
-
     const fetchData = async () => {
-
       try {
-
         const token =
           localStorage.getItem("token");
 
-        /* APONTAMENTOS */
         const entriesResponse =
           await fetch(
-            "http://localhost:3000/time-entries",
+            `${API_URL}/time-entries`,
             {
               headers: {
                 Authorization:
@@ -105,13 +105,11 @@ function Reports() {
           await entriesResponse.json();
 
         setEntries(entriesData);
-
         setFilteredEntries(entriesData);
 
-        /* EMPRESAS */
         const companiesResponse =
           await fetch(
-            "http://localhost:3000/company-contracts",
+            `${API_URL}/companies`,
             {
               headers: {
                 Authorization:
@@ -124,24 +122,18 @@ function Reports() {
           await companiesResponse.json();
 
         setCompanies(companiesData);
-
       } catch (error) {
-
         console.error(error);
       }
     };
 
     fetchData();
-
   }, []);
 
-  /* FILTROS */
   useEffect(() => {
-
     let filtered = [...entries];
 
     if (selectedCompany) {
-
       filtered = filtered.filter(
         (entry) =>
           String(entry.company_id) ===
@@ -150,10 +142,8 @@ function Reports() {
     }
 
     if (selectedMonth) {
-
       filtered = filtered.filter(
         (entry) => {
-
           const month =
             new Date(entry.work_date)
               .getMonth() + 1;
@@ -168,16 +158,13 @@ function Reports() {
     }
 
     setFilteredEntries(filtered);
-
     setCurrentPage(1);
-
   }, [
     selectedCompany,
     selectedMonth,
     entries,
   ]);
 
-  /* PAGINAÇÃO */
   const totalPages =
     Math.ceil(
       filteredEntries.length /
@@ -186,7 +173,6 @@ function Reports() {
 
   const paginatedEntries =
     useMemo(() => {
-
       const start =
         (currentPage - 1) *
         itemsPerPage;
@@ -198,29 +184,21 @@ function Reports() {
         start,
         end
       );
-
     }, [
       filteredEntries,
       currentPage,
     ]);
 
-  /* LIMPAR FILTROS */
   const clearFilters = () => {
-
     setSelectedCompany("");
-
     setSelectedMonth("");
-
     setFilteredEntries(entries);
-
     setCurrentPage(1);
   };
 
-  /* ABRIR MODAL */
   const openEditModal = (
     entry: TimeEntry
   ) => {
-
     setEditingEntry(entry);
 
     setEditDate(
@@ -230,18 +208,14 @@ function Reports() {
     setIsModalOpen(true);
   };
 
-  /* UPDATE */
   const handleUpdate = async () => {
-
     if (!editingEntry) return;
 
     try {
-
       const token =
         localStorage.getItem("token");
 
       const payload = {
-
         hours:
           Number(editingEntry.hours),
 
@@ -257,7 +231,7 @@ function Reports() {
       };
 
       const response = await fetch(
-        `http://localhost:3000/time-entries/${editingEntry.id}`,
+        `${API_URL}/time-entries/${editingEntry.id}`,
         {
           method: "PUT",
 
@@ -278,24 +252,19 @@ function Reports() {
         await response.json();
 
       if (response.ok) {
-
         alert(
           "Lançamento atualizado com sucesso!"
         );
 
         const updatedEntries =
           entries.map((entry) =>
-
             entry.id === editingEntry.id
               ? {
                   ...entry,
-
                   hours:
                     String(payload.hours),
-
                   description:
                     payload.description,
-
                   work_date:
                     payload.work_date,
                 }
@@ -303,23 +272,15 @@ function Reports() {
           );
 
         setEntries(updatedEntries);
-
-        setFilteredEntries(
-          updatedEntries
-        );
-
+        setFilteredEntries(updatedEntries);
         setIsModalOpen(false);
-
       } else {
-
         alert(
           data.message ||
           "Erro ao atualizar lançamento"
         );
       }
-
     } catch (error) {
-
       console.error(error);
 
       alert(
@@ -328,10 +289,8 @@ function Reports() {
     }
   };
 
-  /* DELETE */
   const handleDelete =
     async (id: number) => {
-
       const confirmDelete =
         confirm(
           "Deseja deletar este lançamento?"
@@ -340,13 +299,12 @@ function Reports() {
       if (!confirmDelete) return;
 
       try {
-
         const token =
           localStorage.getItem("token");
 
         const response =
           await fetch(
-            `http://localhost:3000/time-entries/${id}`,
+            `${API_URL}/time-entries/${id}`,
             {
               method: "DELETE",
 
@@ -358,7 +316,6 @@ function Reports() {
           );
 
         if (response.ok) {
-
           const updatedEntries =
             entries.filter(
               (entry) =>
@@ -366,146 +323,77 @@ function Reports() {
             );
 
           setEntries(updatedEntries);
-
-          setFilteredEntries(
-            updatedEntries
-          );
+          setFilteredEntries(updatedEntries);
 
           alert(
             "Lançamento deletado!"
           );
-
         } else {
-
           alert(
             "Erro ao deletar"
           );
         }
-
       } catch (error) {
-
         console.error(error);
       }
     };
 
-  /* EMPRESAS */
   const companyOptions =
-    companies.map(
-      (company, index) => ({
+    companies.map((company) => ({
+      value: String(company.id),
+      label: company.name,
+    }));
 
-        value: String(index + 1),
-
-        label: company.company,
-      })
-    );
-
-  /* MESES */
   const monthOptions = [
-
-    {
-      value: "01",
-      label: "Janeiro",
-    },
-
-    {
-      value: "02",
-      label: "Fevereiro",
-    },
-
-    {
-      value: "03",
-      label: "Março",
-    },
-
-    {
-      value: "04",
-      label: "Abril",
-    },
-
-    {
-      value: "05",
-      label: "Maio",
-    },
-
-    {
-      value: "06",
-      label: "Junho",
-    },
-
-    {
-      value: "07",
-      label: "Julho",
-    },
-
-    {
-      value: "08",
-      label: "Agosto",
-    },
-
-    {
-      value: "09",
-      label: "Setembro",
-    },
-
-    {
-      value: "10",
-      label: "Outubro",
-    },
-
-    {
-      value: "11",
-      label: "Novembro",
-    },
-
-    {
-      value: "12",
-      label: "Dezembro",
-    },
+    { value: "01", label: "Janeiro" },
+    { value: "02", label: "Fevereiro" },
+    { value: "03", label: "Março" },
+    { value: "04", label: "Abril" },
+    { value: "05", label: "Maio" },
+    { value: "06", label: "Junho" },
+    { value: "07", label: "Julho" },
+    { value: "08", label: "Agosto" },
+    { value: "09", label: "Setembro" },
+    { value: "10", label: "Outubro" },
+    { value: "11", label: "Novembro" },
+    { value: "12", label: "Dezembro" },
   ];
 
   const getCompanyName = (
     companyId: number
   ) => {
-
     const company =
-      companies[companyId - 1];
+      companies.find(
+        (item) =>
+          item.id === companyId
+      );
 
     return (
-      company?.company ||
+      company?.name ||
       `Empresa ${companyId}`
     );
   };
 
   return (
     <div className="reports-container">
-
       <Navbar />
 
       <main className="reports-content">
-
         <div className="reports-card">
-
           <div className="top-bar">
-
             <h1>
               Reports
             </h1>
-
           </div>
-       
 
-          {/* FILTROS */}
           <div className="filters">
-
             <div className="filter-item">
-
               <label>
                 Empresa
               </label>
 
               <Select
                 options={companyOptions}
-
                 value={
                   companyOptions.find(
                     (option) =>
@@ -513,27 +401,30 @@ function Reports() {
                       selectedCompany
                   ) || null
                 }
-
                 placeholder="Filtrar empresa"
-
                 onChange={(option) =>
                   setSelectedCompany(
                     option?.value || ""
                   )
                 }
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                styles={{
+                  menuPortal: (base) => ({
+                    ...base,
+                    zIndex: 99999,
+                  }),
+                }}
               />
-
             </div>
 
             <div className="filter-item">
-
               <label>
                 Mês
               </label>
 
               <Select
                 options={monthOptions}
-
                 value={
                   monthOptions.find(
                     (option) =>
@@ -541,100 +432,67 @@ function Reports() {
                       selectedMonth
                   ) || null
                 }
-
                 placeholder="Filtrar mês"
-
                 onChange={(option) =>
                   setSelectedMonth(
                     option?.value || ""
                   )
                 }
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                styles={{
+                  menuPortal: (base) => ({
+                    ...base,
+                    zIndex: 99999,
+                  }),
+                }}
               />
-
             </div>
 
-                <div className="clear-filter-div">
-            <button
-              className="clear-filters-button"
-              onClick={clearFilters}
-            >
-              Limpar filtros
-            </button>
-
+            <div className="clear-filter-div">
+              <button
+                className="clear-filters-button"
+                onClick={clearFilters}
+              >
+                Limpar filtros
+              </button>
+            </div>
           </div>
 
-          </div>
-
-          {/* TABELA */}
           <div className="table-container">
-
             <table>
-
               <thead>
-
                 <tr>
-
-                  <th>
-                    Data
-                  </th>
-
-                  <th>
-                    Empresa
-                  </th>
-
-                  <th>
-                    Contrato
-                  </th>
-
-                  <th>
-                    Horas
-                  </th>
-
-                  <th>
-                    Status
-                  </th>
-
-                  <th>
-                    Descrição
-                  </th>
-
-                  <th>
-                    Ações
-                  </th>
-
+                  <th>Data</th>
+                  <th>Empresa</th>
+                  <th>Contrato</th>
+                  <th>Horas</th>
+                  <th>Status</th>
+                  <th>Descrição</th>
+                  <th>Ações</th>
                 </tr>
-
               </thead>
 
               <tbody>
-
                 {paginatedEntries.map(
                   (entry) => (
-
                     <tr key={entry.id}>
-
                       <td>
-                        {
-                          new Date(
-                            entry.work_date
-                          ).toLocaleDateString(
-                            "pt-BR"
-                          )
-                        }
+                        {new Date(
+                          entry.work_date
+                        ).toLocaleDateString(
+                          "pt-BR"
+                        )}
                       </td>
 
                       <td>
-                        {
-                          getCompanyName(
-                            entry.company_id
-                          )
-                        }
+                        {getCompanyName(
+                          entry.company_id
+                        )}
                       </td>
 
                       <td>
-                        {
-                          entry.contract_id
-                        }
+                        {entry.contract_id}
                       </td>
 
                       <td>
@@ -642,13 +500,9 @@ function Reports() {
                       </td>
 
                       <td>
-
                         <span className="status">
-
                           {entry.status}
-
                         </span>
-
                       </td>
 
                       <td>
@@ -656,20 +510,14 @@ function Reports() {
                       </td>
 
                       <td>
-
                         <div className="actions">
-
                           <button
                             className="edit-button"
                             onClick={() =>
-                              openEditModal(
-                                entry
-                              )
+                              openEditModal(entry)
                             }
                           >
-
                             <FiEdit2 />
-
                           </button>
 
                           <button
@@ -680,30 +528,19 @@ function Reports() {
                               )
                             }
                           >
-
                             <FiTrash2 />
-
                           </button>
-
                         </div>
-
                       </td>
-
                     </tr>
                   )
                 )}
-
               </tbody>
-
             </table>
-
           </div>
 
-          {/* PAGINAÇÃO */}
           {totalPages > 1 && (
-
             <div className="pagination">
-
               <button
                 className="pagination-button"
                 disabled={
@@ -715,15 +552,12 @@ function Reports() {
                   )
                 }
               >
-
                 <FiChevronLeft />
-
               </button>
 
               {Array.from({
                 length: totalPages,
               }).map((_, index) => (
-
                 <button
                   key={index}
                   className={`pagination-number ${
@@ -754,30 +588,19 @@ function Reports() {
                   )
                 }
               >
-
                 <FiChevronRight />
-
               </button>
-
             </div>
           )}
-
         </div>
-
       </main>
 
-      {/* MODAL */}
       {isModalOpen &&
         editingEntry && (
-
           <div className="modal-overlay">
-
             <div className="modal">
-
               <div className="modal-header">
-
                 <div>
-
                   <span className="modal-badge">
                     EDITAR
                   </span>
@@ -785,7 +608,6 @@ function Reports() {
                   <h2>
                     Editar lançamento
                   </h2>
-
                 </div>
 
                 <button
@@ -794,85 +616,60 @@ function Reports() {
                     setIsModalOpen(false)
                   }
                 >
-
                   <FiX />
-
                 </button>
-
               </div>
 
               <div className="modal-form">
-
-                {/* DATA */}
                 <div className="modal-form-group">
-
                   <label>
                     Data trabalhada
                   </label>
 
                   <div className="date-picker-wrapper">
-
                     <FiCalendar className="calendar-icon" />
 
                     <DatePicker
                       selected={editDate}
-
                       onChange={(
                         date: Date | null
                       ) =>
                         setEditDate(date)
                       }
-
                       dateFormat="dd/MM/yyyy"
-
                       placeholderText="Selecione uma data"
-
                       className="custom-date-picker"
-
                       calendarClassName="custom-calendar"
-
                       dayClassName={() =>
                         "custom-day"
                       }
-
                       popperClassName="custom-popper"
                     />
-
                   </div>
-
                 </div>
 
-                {/* HORAS */}
                 <div className="modal-form-group">
-
                   <label>
                     Horas trabalhadas
                   </label>
 
                   <input
                     type="number"
-
                     step="0.5"
-
                     value={
                       editingEntry.hours
                     }
-
                     onChange={(e) =>
                       setEditingEntry({
                         ...editingEntry,
-
                         hours:
                           e.target.value,
                       })
                     }
                   />
-
                 </div>
 
-                {/* DESCRIÇÃO */}
                 <div className="modal-form-group">
-
                   <label>
                     Descrição
                   </label>
@@ -881,22 +678,17 @@ function Reports() {
                     value={
                       editingEntry.description
                     }
-
                     onChange={(e) =>
                       setEditingEntry({
                         ...editingEntry,
-
                         description:
                           e.target.value,
                       })
                     }
                   />
-
                 </div>
 
-                {/* BOTÕES */}
                 <div className="modal-buttons">
-
                   <button
                     className="cancel-button"
                     onClick={() =>
@@ -912,16 +704,11 @@ function Reports() {
                   >
                     Salvar alterações
                   </button>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
         )}
-
     </div>
   );
 }
