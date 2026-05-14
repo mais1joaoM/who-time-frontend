@@ -2,18 +2,26 @@ import "./styles.css";
 
 import { useState } from "react";
 
-import whoTimeLogo from "../../assets/who-time-logo.png";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-  /* ESTADOS */
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  /* LOGIN */
+  const [email, setEmail] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
   const handleLogin = async () => {
 
     try {
+
+      setLoading(true);
 
       const response = await fetch(
         "http://localhost:3000/login",
@@ -21,7 +29,8 @@ function Login() {
           method: "POST",
 
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
 
           body: JSON.stringify({
@@ -31,9 +40,8 @@ function Login() {
         }
       );
 
-      const data = await response.json();
-
-      console.log(data);
+      const data =
+        await response.json();
 
       if (response.ok) {
 
@@ -42,44 +50,72 @@ function Login() {
           data.token
         );
 
-        alert("Login realizado!");
+        navigate("/dashboard");
 
       } else {
 
-        alert(data.message || "Erro no login");
+        alert(
+          data.message ||
+          "Erro no login"
+        );
       }
 
     } catch (error) {
 
       console.error(error);
 
-      alert("Erro ao conectar com API");
+      alert(
+        "Erro ao conectar com API"
+      );
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
   return (
-    <div className="container">
+    <div className="login-page">
 
-      <div className="background-shape top"></div>
-      <div className="background-shape bottom"></div>
+      <div className="bg-glow glow-1"></div>
+      <div className="bg-glow glow-2"></div>
 
-      <div className="login-box">
+      <div className="brand-section">
 
-        <div className="logo-container">
 
-          <img
-            src={whoTimeLogo}
-            alt="who-time"
-            className="who-image"
-          />
+        <div className="brand-info">
+
+          <h1>
+            Who Time
+          </h1>
+
+        </div>
+
+      </div>
+
+      <div className="login-card">
+
+        <div className="login-header">
+
+          <span className="login-badge">
+            LOGIN
+          </span>
+
+          <h2>
+            Entrar
+          </h2>
 
         </div>
 
         <div className="input-group">
 
+          <label>
+            E-mail
+          </label>
+
           <input
             type="email"
-            placeholder="EMAIL"
+            placeholder="Digite seu e-mail"
             value={email}
             onChange={(e) =>
               setEmail(e.target.value)
@@ -90,9 +126,13 @@ function Login() {
 
         <div className="input-group">
 
+          <label>
+            Senha
+          </label>
+
           <input
             type="password"
-            placeholder="PASSWORD"
+            placeholder="Digite sua senha"
             value={password}
             onChange={(e) =>
               setPassword(e.target.value)
@@ -101,15 +141,36 @@ function Login() {
 
         </div>
 
-        <button onClick={handleLogin}>
-          LOGIN
+        <div className="login-footer">
+
+          <label className="remember-me">
+
+            <input type="checkbox" />
+
+            <span>
+              Lembrar de mim
+            </span>
+
+          </label>
+
+          <span className="forgot-password">
+            Esqueceu a senha?
+          </span>
+
+        </div>
+
+        <button
+          className="login-button"
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading
+            ? "Entrando..."
+            : "Entrar"}
         </button>
 
-        <span className="forgot-password">
-          Forgot password?
-        </span>
-
       </div>
+
     </div>
   );
 }

@@ -1,0 +1,700 @@
+/* pages/CompaniesContracts/styles.css */
+
+.companies-page {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(91,124,255,0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(45,86,232,0.10),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f4f7ff 0%,
+      #eef3ff 100%
+    );
+
+  padding-top: 110px;
+}
+
+.companies-content {
+  padding: 40px;
+}
+
+.companies-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 24px;
+
+  margin-bottom: 32px;
+}
+
+.companies-badge {
+  color: #2d56e8;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.companies-header h1 {
+  font-size: 42px;
+
+  color: #1f2937;
+
+  margin-top: 8px;
+}
+
+.companies-header p {
+  color: #64748b;
+
+  margin-top: 8px;
+}
+
+.header-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.new-company-button,
+.new-contract-button {
+  height: 56px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.new-company-button {
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
+
+  box-shadow:
+    0 14px 28px rgba(45,86,232,0.22);
+}
+
+.new-contract-button {
+  background:
+    linear-gradient(
+      135deg,
+      #10b981,
+      #34d399
+    );
+
+  box-shadow:
+    0 14px 28px rgba(16,185,129,0.22);
+}
+
+.new-company-button:hover,
+.new-contract-button:hover {
+  transform: translateY(-2px);
+}
+
+.search-wrapper {
+  height: 60px;
+
+  background: rgba(255,255,255,0.85);
+
+  border:
+    1px solid rgba(255,255,255,0.7);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(12px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 20px;
+
+  margin-bottom: 30px;
+
+  box-shadow:
+    0 14px 34px rgba(15,23,42,0.05);
+}
+
+.search-wrapper svg {
+  color: #64748b;
+}
+
+.search-wrapper input {
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  width: 100%;
+
+  font-size: 15px;
+
+  color: #1f2937;
+}
+
+.companies-grid {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.company-card {
+  background:
+    rgba(255,255,255,0.82);
+
+  border:
+    1px solid rgba(255,255,255,0.65);
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 18px 48px rgba(15,23,42,0.07);
+
+  overflow: hidden;
+}
+
+.company-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.company-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+.company-icon {
+  width: 64px;
+
+  height: 64px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 24px;
+
+  flex-shrink: 0;
+}
+
+.company-info h2 {
+  color: #1f2937;
+
+  font-size: 24px;
+
+  margin-bottom: 8px;
+}
+
+.company-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.company-meta span {
+  color: #64748b;
+
+  background: #f1f5ff;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.company-actions {
+  display: flex;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+.company-actions button,
+.contract-actions button {
+  width: 44px;
+
+  height: 44px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    rgba(45,86,232,0.08);
+
+  color: #2d56e8;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.company-actions button:hover,
+.contract-actions button:hover {
+  background:
+    rgba(45,86,232,0.16);
+
+  transform: translateY(-2px);
+}
+
+.contracts-wrapper {
+  margin-top: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.contract-card {
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 22px;
+
+  border:
+    1px solid #eef2ff;
+
+  box-shadow:
+    0 10px 26px rgba(15,23,42,0.04);
+}
+
+.contract-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.contract-top h3 {
+  color: #1f2937;
+
+  margin-bottom: 6px;
+
+  font-size: 18px;
+}
+
+.contract-top span {
+  color: #64748b;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.contract-actions {
+  display: flex;
+
+  gap: 10px;
+}
+
+.contract-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(160px, 1fr)
+    );
+
+  gap: 12px;
+
+  color: #475569;
+
+  font-size: 14px;
+}
+
+.contract-details div {
+  background: #f8fbff;
+
+  border:
+    1px solid #eef2ff;
+
+  border-radius: 16px;
+
+  padding: 14px;
+}
+
+.no-contracts {
+  background: white;
+
+  color: #64748b;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  text-align: center;
+
+  font-weight: 600;
+}
+
+.modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(15,23,42,0.45);
+
+  backdrop-filter: blur(8px);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 9999;
+
+  padding: 20px;
+}
+
+.modal-content {
+  width: 100%;
+
+  max-width: 620px;
+
+  background:
+    rgba(255,255,255,0.95);
+
+  border:
+    1px solid rgba(255,255,255,0.7);
+
+  border-radius: 28px;
+
+  padding: 32px;
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 28px 70px rgba(15,23,42,0.22);
+}
+
+.modal-content h2 {
+  color: #1f2937;
+
+  margin-bottom: 24px;
+
+  font-size: 28px;
+}
+
+.modal-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+}
+
+.modal-group {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 20px;
+}
+
+.modal-group label {
+  color: #374151;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+.modal-group input {
+  height: 56px;
+
+  border:
+    1px solid #dbe2f0;
+
+  border-radius: 16px;
+
+  padding: 0 18px;
+
+  outline: none;
+
+  background: #f8fbff;
+
+  color: #1f2937;
+
+  font-size: 15px;
+}
+
+.modal-group input:focus {
+  border-color: #2d56e8;
+
+  box-shadow:
+    0 0 0 4px rgba(45,86,232,0.08);
+}
+
+.modal-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 14px;
+
+  margin-top: 30px;
+}
+
+.cancel-button,
+.save-button {
+  height: 52px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.cancel-button {
+  background: #e2e8f0;
+
+  color: #1f2937;
+}
+
+.save-button {
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8,
+      #5b7cff
+    );
+
+  color: white;
+}
+
+.cancel-button:hover,
+.save-button:hover {
+  transform: translateY(-2px);
+}
+
+.empty-state {
+  height: 180px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #64748b;
+
+  font-weight: 600;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+  .companies-page {
+    padding-top: 95px;
+  }
+
+  .companies-content {
+    padding: 22px;
+  }
+
+  .companies-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .companies-header h1 {
+    font-size: 30px;
+  }
+
+  .header-actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .new-company-button,
+  .new-contract-button {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .company-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .company-info {
+    width: 100%;
+
+    align-items: flex-start;
+  }
+
+  .company-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+  .contract-top {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .contract-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+  .modal-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .companies-content {
+    padding: 16px;
+  }
+
+  .company-card {
+    padding: 20px;
+
+    border-radius: 22px;
+  }
+
+  .company-info {
+    flex-direction: column;
+  }
+
+  .company-info h2 {
+    font-size: 22px;
+  }
+
+  .company-icon {
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 18px;
+  }
+
+  .company-actions button,
+  .contract-actions button {
+    width: 40px;
+
+    height: 40px;
+  }
+
+  .modal-content {
+    padding: 24px;
+
+    border-radius: 24px;
+  }
+}

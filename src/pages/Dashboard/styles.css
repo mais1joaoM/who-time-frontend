@@ -1,0 +1,386 @@
+.dashboard-container {
+  width: 100%;
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4f7ff 0%,
+      #eef3ff 100%
+    );
+
+  overflow-x: hidden;
+}
+
+/* CONTEÚDO */
+
+.content {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 120px 40px 40px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4f7ff 0%,
+      #eef3ff 100%
+    );
+}
+
+/* CARD */
+
+.form-card {
+  width: 100%;
+
+  max-width: 1060px;
+
+  background: white;
+
+  padding: 54px;
+
+  border-radius: 34px;
+
+  box-shadow:
+    0 25px 80px rgba(15,23,42,0.08);
+
+  border:
+    1px solid rgba(255,255,255,0.7);
+}
+
+.form-card h1 {
+  color: #1f2937;
+
+  font-size: 46px;
+
+  margin-bottom: 40px;
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+}
+
+/* FORM */
+
+.form-row {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 22px;
+
+  margin-bottom: 24px;
+}
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  color: #1f2937;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+  font-size: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+
+  padding: 18px;
+
+  border:
+    1px solid #dbe2f0;
+
+  border-radius: 16px;
+
+  background: #f9fbff;
+
+  color: #1f2937;
+
+  outline: none;
+
+  font-size: 15px;
+
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #2d56e8;
+
+  box-shadow:
+    0 0 0 4px rgba(45,86,232,0.08);
+}
+
+.form-group textarea {
+  min-height: 190px;
+
+  resize: none;
+
+  line-height: 1.6;
+}
+
+/* BOTÃO */
+
+.submit-button {
+  width: 100%;
+
+  padding: 19px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2d56e8 0%,
+      #315cf4 100%
+    );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  box-shadow:
+    0 14px 28px rgba(45,86,232,0.22);
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 20px 38px rgba(45,86,232,0.30);
+}
+
+/* DATE PICKER */
+
+.date-picker-wrapper {
+  position: relative;
+
+  width: 100%;
+}
+
+.calendar-icon {
+  position: absolute;
+
+  top: 50%;
+  left: 18px;
+
+  transform: translateY(-50%);
+
+  color: #64748b;
+
+  font-size: 18px;
+
+  z-index: 2;
+}
+
+.custom-date-picker {
+  width: 100%;
+
+  padding:
+    18px
+    18px
+    18px
+    52px;
+
+  border:
+    1px solid #dbe2f0;
+
+  border-radius: 16px;
+
+  background: #f9fbff;
+
+  color: #1f2937;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.custom-date-picker:focus {
+  border-color: #2d56e8;
+
+  box-shadow:
+    0 0 0 4px rgba(45,86,232,0.08);
+}
+
+.custom-calendar {
+  border: none !important;
+
+  border-radius: 24px !important;
+
+  overflow: hidden;
+
+  padding: 16px;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.15) !important;
+
+  font-family: inherit;
+}
+
+.react-datepicker {
+  border: none !important;
+}
+
+.react-datepicker__header {
+  background: white !important;
+
+  border-bottom: none !important;
+
+  padding-top: 10px !important;
+}
+
+.react-datepicker__current-month {
+  color: #1f2937 !important;
+
+  font-size: 16px !important;
+
+  font-weight: 700 !important;
+}
+
+.react-datepicker__day-name {
+  color: #94a3b8 !important;
+
+  font-weight: 600;
+
+  width: 40px !important;
+
+  line-height: 40px !important;
+}
+
+.react-datepicker__day {
+  width: 40px !important;
+
+  line-height: 40px !important;
+
+  margin: 4px !important;
+
+  border-radius: 12px !important;
+
+  transition: 0.2s;
+}
+
+.react-datepicker__day:hover {
+  background: #edf2ff !important;
+
+  color: #2d56e8 !important;
+}
+
+.react-datepicker__day--selected {
+  background: #2d56e8 !important;
+
+  color: white !important;
+
+  font-weight: bold;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #2d56e8 !important;
+}
+
+.react-datepicker__triangle {
+  display: none;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 900px) {
+
+  .content {
+    padding: 110px 22px 30px;
+
+    align-items: flex-start;
+  }
+
+  .form-card {
+    padding: 32px;
+
+    border-radius: 26px;
+  }
+
+  .form-card h1 {
+    font-size: 34px;
+
+    margin-bottom: 30px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .content {
+    padding: 100px 14px 24px;
+  }
+
+  .form-card {
+    padding: 22px;
+
+    border-radius: 22px;
+  }
+
+  .form-card h1 {
+    font-size: 28px;
+
+    margin-bottom: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .custom-date-picker {
+    padding-top: 16px;
+
+    padding-bottom: 16px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+  }
+
+  .custom-date-picker {
+    padding-left: 50px;
+  }
+
+  .form-group textarea {
+    min-height: 150px;
+  }
+
+  .submit-button {
+    padding: 16px;
+
+    font-size: 15px;
+  }
+}
