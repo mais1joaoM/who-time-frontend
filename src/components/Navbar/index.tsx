@@ -7,14 +7,13 @@ import {
   FiX,
 } from "react-icons/fi";
 
+import whoTimeIcon from "../../assets/favz.svg";
+
 function Navbar() {
 
   const [menuOpen, setMenuOpen] =
     useState(false);
 
-  /*
-    DECODIFICA JWT
-  */
   const token =
     localStorage.getItem("token");
 
@@ -42,9 +41,6 @@ function Navbar() {
     }
   }
 
-  /*
-    PERMISSÃO
-  */
   const canManageCompanies =
     userRole === "admin" ||
     userRole === "manager";
@@ -65,6 +61,16 @@ function Navbar() {
     <header className="navbar">
 
       <div className="navbar-brand">
+
+        <div className="brand-logo-wrapper">
+
+          <img
+            src={whoTimeIcon}
+            alt="Who Time"
+            className="brand-logo"
+          />
+
+        </div>
 
         <div className="navbar-logo">
           Who Time
@@ -93,29 +99,19 @@ function Navbar() {
         }`}
       >
 
-        <a
-          href="/dashboard"
-          onClick={closeMenu}
-        >
+        <a href="/dashboard" onClick={closeMenu}>
           Dashboard
         </a>
 
-        <a
-          href="/reports"
-          onClick={closeMenu}
-        >
+        <a href="/reports" onClick={closeMenu}>
           Reports
         </a>
 
-        <a
-          href="/statistics"
-          onClick={closeMenu}
-        >
+        <a href="/statistics" onClick={closeMenu}>
           Statistics
         </a>
 
         {canManageCompanies && (
-
           <>
             <a
               href="/companiescontracts"
@@ -124,14 +120,10 @@ function Navbar() {
               Companies & Contracts
             </a>
 
-            <a
-              href="/users"
-              onClick={closeMenu}
-            >
+            <a href="/users" onClick={closeMenu}>
               Users
             </a>
           </>
-
         )}
 
         <button

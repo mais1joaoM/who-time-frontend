@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import whoTimeIcon from "../../assets/favz.svg";
+
 function Login() {
 
   const navigate = useNavigate();
@@ -82,6 +84,15 @@ function Login() {
 
       <div className="brand-section">
 
+        <div className="brand-logo-wrapper">
+
+          <img
+            src={whoTimeIcon}
+            alt="Who Time"
+            className="brand-logo"
+          />
+
+        </div>
 
         <div className="brand-info">
 
